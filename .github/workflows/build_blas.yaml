@@ -13,9 +13,9 @@ jobs:
   
     steps:
       - name: Checkout Code
-          uses: actions/checkout@v2
-          with:
-            submodules: recursive
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
         
       # - name: Setup WSL
       #   uses: Vampire/setup-wsl@v1.1.0
