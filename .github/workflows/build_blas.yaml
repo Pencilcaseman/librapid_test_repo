@@ -1,0 +1,40 @@
+name: Build OpenBLAS
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Building on Linux
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout Code
+          uses: actions/checkout@v2
+          with:
+            submodules: recursive
+        
+      # - name: Setup WSL
+      #   uses: Vampire/setup-wsl@v1.1.0
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Clone OpenBLAS
+        run: |
+          git clone https://github.com/xianyi/OpenBLAS.git
+        shell: bash
+
+      - name: Build OpenBLAS
+        run: |
+          cd OpenBLAS
+          make -DNUM_THREADS=128 -DDYNAMIC_ARCH=ON -DDYNAMIC_LIST='CORE2;NEHALEM;SANDYBRIDGE;BULLDOZER;HASWELL'
+
+      - name: Generated Files
+        run: |
+          ls OpenBLAS
