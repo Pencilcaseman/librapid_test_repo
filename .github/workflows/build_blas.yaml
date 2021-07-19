@@ -69,8 +69,7 @@ jobs:
 
       - name: Generated Files
         run: |
-          cd openblas_install
-          dir /b /a /s
+          tree OpenBLAS
 
   windows_build:
     name: Building on Windows
@@ -119,4 +118,5 @@ jobs:
 
       - name: Generated Files
         run: |
-          tree openblas_install
+          cd openblas_install
+          dir /b /a /s
