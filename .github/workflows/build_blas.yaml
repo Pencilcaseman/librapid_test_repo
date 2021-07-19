@@ -10,6 +10,7 @@ jobs:
   linux_build:
     name: Building on Linux
     runs-on: ubuntu-latest
+    continue-on-error: true
   
     steps:
       - name: Checkout Code
@@ -40,6 +41,7 @@ jobs:
   mac_build:
     name: Building on Mac OS
     runs-on: macos-latest
+    continue-on-error: true
   
     steps:
       - name: Checkout Code
@@ -74,6 +76,7 @@ jobs:
   windows_build:
     name: Building on Windows
     runs-on: windows-latest
+    continue-on-error: true
   
     steps:
       - name: Checkout Code
@@ -120,3 +123,16 @@ jobs:
         run: |
           cd openblas_install
           dir /a-D /S /B
+        shell: cmd
+
+      - name: Generated Files
+        run: |
+          cd openblas_install
+          tree .
+        shell: cmd
+
+      - name: Generated Files
+        run: |
+          cd openblas_install
+          tree .
+        shell: bash
