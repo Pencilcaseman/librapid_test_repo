@@ -31,10 +31,11 @@ jobs:
         run: |
           cd OpenBLAS
           make NUM_THREADS=128 DYNAMIC_ARCH=ON DYNAMIC_LIST='CORE2;NEHALEM;SANDYBRIDGE;BULLDOZER;HASWELL'
+          make install PREFIX=../openblas_install
 
       - name: Generated Files
         run: |
-          ls OpenBLAS
+          tree openblas_install
 
   mac_build:
     name: Building on Mac OS
@@ -60,10 +61,11 @@ jobs:
         run: |
           cd OpenBLAS
           make NUM_THREADS=128 DYNAMIC_ARCH=ON DYNAMIC_LIST='CORE2;NEHALEM;SANDYBRIDGE;BULLDOZER;HASWELL'
+          make install PREFIX=../openblas_install
 
       - name: Generated Files
         run: |
-          ls OpenBLAS
+          tree openblas_install
 
   windows_build:
     name: Building on Windows
@@ -107,11 +109,9 @@ jobs:
           cd build
 
           cmake -G "MinGW Makefiles" -DNOFORTRAN=1 ..
-
-          cmake -DNUM_THREADS=128 -DDYNAMIC_ARCH=ON -DDYNAMIC_LIST='CORE2;NEHALEM;SANDYBRIDGE;BULLDOZER;HASWELL' ..
-
-          cmake --build .
+          cmake -DCMAKE_INSTALL_PREFIX:PATH=../../openblas_install -DNUM_THREADS=128 -DDYNAMIC_ARCH=ON -DDYNAMIC_LIST='CORE2;NEHALEM;SANDYBRIDGE;BULLDOZER;HASWELL' ..
+          cmake --build . --target install --config Release
 
       - name: Generated Files
         run: |
-          ls OpenBLAS/build
+          tree openblas_install
