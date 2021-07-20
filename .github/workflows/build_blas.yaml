@@ -157,7 +157,7 @@ jobs:
 
       - name: Install Things
         run: |
-          sconda update -n base conda -y
+          conda update -n base conda -y
           conda config --add channels conda-forge
           conda install -y cmake flang clangdev perl libflang ninja -y
         shell: pwsh
