@@ -126,7 +126,7 @@ jobs:
         shell: cmd
 
   wsl_build:
-    name: Building on Windows
+    name: Building on Windows Subsystem for Linux
     runs-on: windows-latest
     continue-on-error: true
   
