@@ -177,6 +177,8 @@ jobs:
 
       - name: Build OpenBLAS
         run: |
+          cd OpenBLAS
+          cd build
           cmake --build . --config Release
         shell: pwsh
 
