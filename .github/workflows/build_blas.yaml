@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch:
 
 jobs:
   linux_build:
@@ -37,6 +36,10 @@ jobs:
       - name: Generated Files
         run: |
           tree openblas_install
+
+      - name: File Search
+        run : |
+          python file_search.py
 
   mac_build:
     name: Building on Mac OS
@@ -72,6 +75,10 @@ jobs:
       - name: Generated Files
         run: |
           tree openblas_install
+
+      - name: File Search
+        run : |
+          python file_search.py
 
   windows_build:
     name: Building on Windows
@@ -124,6 +131,10 @@ jobs:
           cd openblas_install
           dir /a-D /S /B
         shell: cmd
+
+      - name: File Search
+        run : |
+          python file_search.py
 
   windows_build_2:
     name: Building on Windows (again)
@@ -186,3 +197,7 @@ jobs:
         run: |
           dir /a-D /S /B
         shell: cmd
+
+      - name: File Search
+        run : |
+          python file_search.py
