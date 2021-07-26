@@ -44,8 +44,9 @@ jobs:
       - name: Archive OpenBLAS Build
         uses: actions/upload-artifact@v2
         with:
-          name: OpenBLAS
+          name: OpenBLAS_Linux
           path: openblas_install
+          retention-days: 3
 
   mac_build:
     name: Building on Mac OS
@@ -89,8 +90,9 @@ jobs:
       - name: Archive OpenBLAS Build
         uses: actions/upload-artifact@v2
         with:
-          name: OpenBLAS
+          name: OpenBLAS_OSX
           path: openblas_install
+          retention-days: 3
 
   windows_build:
     name: Building on Windows
@@ -151,14 +153,15 @@ jobs:
       - name: Archive OpenBLAS Build
         uses: actions/upload-artifact@v2
         with:
-          name: OpenBLAS
+          name: OpenBLAS_Windows_1
           path: openblas_install
 
       - name: Archive OpenBLAS Build (FULL)
         uses: actions/upload-artifact@v2
         with:
-          name: OpenBLAS_FULL
+          name: OpenBLAS_Windows_1_FULL
           path: OpenBLAS
+          retention-days: 3
 
   windows_build_2:
     name: Building on Windows (again)
@@ -229,5 +232,6 @@ jobs:
       - name: Archive OpenBLAS Build (FULL)
         uses: actions/upload-artifact@v2
         with:
-          name: OpenBLAS_FULL
+          name: OpenBLAS_Windows_2_FULL
           path: OpenBLAS
+          retention-days: 3
