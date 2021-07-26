@@ -41,6 +41,12 @@ jobs:
         run : |
           python file_search.py
 
+      - name: Archive OpenBLAS Build
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenBLAS
+          path: openblas_install
+
   mac_build:
     name: Building on Mac OS
     runs-on: macos-latest
@@ -79,6 +85,12 @@ jobs:
       - name: File Search
         run : |
           python file_search.py
+
+      - name: Archive OpenBLAS Build
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenBLAS
+          path: openblas_install
 
   windows_build:
     name: Building on Windows
@@ -135,6 +147,18 @@ jobs:
       - name: File Search
         run : |
           python file_search.py
+
+      - name: Archive OpenBLAS Build
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenBLAS
+          path: openblas_install
+
+      - name: Archive OpenBLAS Build (FULL)
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenBLAS_FULL
+          path: OpenBLAS
 
   windows_build_2:
     name: Building on Windows (again)
@@ -201,3 +225,9 @@ jobs:
       - name: File Search
         run : |
           python file_search.py
+
+      - name: Archive OpenBLAS Build (FULL)
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenBLAS_FULL
+          path: OpenBLAS
