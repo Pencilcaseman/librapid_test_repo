@@ -271,14 +271,24 @@ jobs:
           conda config --set auto_update_conda false
           conda install --yes --quiet clangdev cmake ninja flang=11.0.1
 
+      - name: Configure CMake
+        run: |
+          cd OpenBLAS
+
+          set "LIB=%CONDA_PREFIX%\Library\lib;%LIB%"
+          set "CPATH=%CONDA_PREFIX%\Library\include;%CPATH%"
+          mkdir build
+          cd build
+          
+          cmake .. -G "Ninja" -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_C_COMPILER=clang-cl -DCMAKE_Fortran_COMPILER=flang -DCMAKE_MT=mt -DBUILD_SHARED_LIBS=ON -DBUILD_WITHOUT_LAPACK=no -DNOFORTRAN=0 -DNUM_THREADS=128 -DDYNAMIC_ARCH=ON -DDYNAMIC_LIST='CORE2;NEHALEM;SANDYBRIDGE;BULLDOZER;HASWELL' -DCMAKE_BUILD_TYPE=Release
+        shell: pwsh
+
       - name: Build OpenBLAS
         run: |
           cd OpenBLAS
-          mkdir build
           cd build
-
-          cmake -G "Ninja" -DBUILD_SHARED_LIBS=ON -DCMAKE_C_COMPILER:FILEPATH=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=ninja -DNUM_THREADS=128 -DDYNAMIC_ARCH=ON -DDYNAMIC_LIST='CORE2;NEHALEM;SANDYBRIDGE;BULLDOZER;HASWELL' ..
-          cmake --build .
+          cmake --build . --config Release
+        shell: pwsh
 
       - name: Generated Files
         run: |
