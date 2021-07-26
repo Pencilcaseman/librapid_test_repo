@@ -136,9 +136,8 @@ jobs:
           mkdir build
           cd build
 
-          cmake -G "MinGW Makefiles" -DNOFORTRAN=1 ..
-          cmake -DCMAKE_INSTALL_PREFIX:PATH=../../openblas_install -DNUM_THREADS=128 -DDYNAMIC_ARCH=ON -DDYNAMIC_LIST='CORE2;NEHALEM;SANDYBRIDGE;BULLDOZER;HASWELL' ..
-          cmake --build . --target install --config Release
+          cmake -G "Ninja" -DBUILD_SHARED_LIBS=ON -DCMAKE_C_COMPILER:FILEPATH=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=ninja ..
+          cmake --build .
 
       - name: Generated Files
         run: |
@@ -164,7 +163,7 @@ jobs:
           retention-days: 3
 
   windows_build_2:
-    name: Building on Windows (again)
+    name: Building on Windows (V2)
     runs-on: windows-latest
     continue-on-error: true
   
@@ -229,9 +228,70 @@ jobs:
         run : |
           python file_search.py
 
-      - name: Archive OpenBLAS Build (FULL)
+      - name: Archive OpenBLAS Build
         uses: actions/upload-artifact@v2
         with:
           name: OpenBLAS_Windows_V2
+          path: located_files
+          retention-days: 3
+
+  windows_build_3:
+    name: Building on Windows (V3)
+    runs-on: windows-latest
+    continue-on-error: true
+  
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+        
+      - name: Setup WSL
+        uses: Vampire/setup-wsl@v1.1.0
+
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v2.1.1
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Visual Studio shell
+        uses: egor-tensin/vs-shell@v2
+
+      - name: Clone OpenBLAS
+        run: |
+          git clone https://github.com/xianyi/OpenBLAS.git
+        shell: bash
+
+      - name: Install Conda things
+        run: |
+          conda config --add channels conda-forge --force
+          conda config --set auto_update_conda false
+          conda install --yes --quiet clangdev cmake ninja flang=11.0.1
+
+      - name: Build OpenBLAS
+        run: |
+          cd OpenBLAS
+          mkdir build
+          cd build
+
+          cmake -G "Ninja" -DBUILD_SHARED_LIBS=ON -DCMAKE_C_COMPILER:FILEPATH=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=ninja -DNUM_THREADS=128 -DDYNAMIC_ARCH=ON -DDYNAMIC_LIST='CORE2;NEHALEM;SANDYBRIDGE;BULLDOZER;HASWELL' ..
+          cmake --build .
+
+      - name: Generated Files
+        run: |
+          dir /a-D /S /B
+        shell: cmd
+
+      - name: File Search
+        run : |
+          python file_search.py
+
+      - name: Archive OpenBLAS Build
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenBLAS_Windows_V3
           path: located_files
           retention-days: 3

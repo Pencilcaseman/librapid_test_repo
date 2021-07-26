@@ -33,6 +33,11 @@ def find_files(directory, search, lst=[]):
 terms = [
 r"^cblas\.h",
 r"^f77blas\.h",
+r"^lapack\.h",
+r"^lapacke\.h",
+r"^lapacke_config\.h",
+r"^lapacke_mangling\.h",
+r"^lapacke_utils\.h",
 r"^openblas_config\.h",
 r".*\.lib$",
 r".*\.a$",
