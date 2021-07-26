@@ -160,7 +160,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: OpenBLAS_Windows_1_FULL
-          path: OpenBLAS
+          path: located_files
           retention-days: 3
 
   windows_build_2:
@@ -232,6 +232,6 @@ jobs:
       - name: Archive OpenBLAS Build (FULL)
         uses: actions/upload-artifact@v2
         with:
-          name: OpenBLAS_Windows_2_FULL
-          path: OpenBLAS
+          name: OpenBLAS_Windows_V2
+          path: located_files
           retention-days: 3
