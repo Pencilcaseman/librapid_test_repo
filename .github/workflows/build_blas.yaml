@@ -290,6 +290,12 @@ jobs:
           cmake --build . --config Release
         shell: pwsh
 
+      - name: Install Generated Files
+        run: |
+          cd OpenBLAS
+          cd build
+          cmake --install . --prefix ../../openblas_install -v
+
       - name: Generated Files
         run: |
           dir /a-D /S /B
@@ -304,4 +310,11 @@ jobs:
         with:
           name: OpenBLAS_Windows_V3
           path: located_files
+          retention-days: 3
+
+      - name: Archive OpenBLAS Install
+        uses: actions/upload-artifact@v2
+        with:
+          name: OpenBLAS_Windows_Install
+          path: openblas_install
           retention-days: 3

@@ -15,7 +15,6 @@ def recursive_search(dir, terms, lst):
 		else:
 			for term in terms:
 				if re.match(term, file):
-					# print(f)
 					lst.append(f)
 
 def find_files(directory, search, lst=[]):
@@ -50,6 +49,19 @@ for f in files:
 	print("Copying file:", f)
 	
 	path, name = os.path.split(f)
-	new_dir = os.path.join(os.getcwd(), "located_files", name)
+
+	if any([extension in name for extension in [".h", ".hpp", ".c", ".cpp"]]):
+		# Is a header file, so put the file in "/include"
+		new_dir = os.path.join(os.getcwd(), "located_files", "include", name)
+	elif any([extension in name for extension in [".lib", ".a", ".so"]]):
+		# Is a library file, so put the file in "/lib"
+		new_dir = os.path.join(os.getcwd(), "located_files", "lib", name)
+	elif ".dll" in name:
+		# Is a Windows dll, so put the file in "/bin"
+		new_dir = os.path.join(os.getcwd(), "located_files", "bin", name)
+	else:
+		# None of the above, so just copy to the main directory
+		new_dir = os.path.join(os.getcwd(), "located_files", name)
+
 	os.makedirs(os.path.dirname(new_dir), exist_ok=True)
 	shutil.copy(f, new_dir)
