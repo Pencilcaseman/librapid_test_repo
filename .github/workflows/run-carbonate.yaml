@@ -14,10 +14,10 @@ jobs:
        
       - name: Clone cabonate
         run: |
-          git clone https://github.com/callmekatootie/carbonate.git --recursive ./
+          git clone https://github.com/callmekatootie/carbonate.git --recursive ./crab
         
       - name: Generate beautiful images for code blocks present in issues
-        uses: ./
+        uses: ./crab
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           imgur-client-id: ${{ secrets.IMGUR_CLIENT_ID }}
